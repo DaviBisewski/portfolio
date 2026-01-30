@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import gsap from "./animations/gsap"
 
+
 function App() {
+
 
   useEffect(() => {
 
@@ -25,6 +27,15 @@ function App() {
 
   return (
     <>
+  
+    <div className="bg-black text-white text-6xl p-10">
+      TAILWIND FUNCIONANDO
+    </div>
+  
+
+
+
+
     </>
   )
 }
