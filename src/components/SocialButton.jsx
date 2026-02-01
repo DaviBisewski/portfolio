@@ -9,9 +9,9 @@ export default function SocialButton({ href, icon, label, download = false }) {
     >
       <div className="group relative flex items-center gap-3 w-fit">
 
-        <img src={icon} alt={label} className="w-8 h-8" />
+        <img src={icon} alt={label} className="reveal w-8 h-8" />
 
-        <p className="text-xl font-bold">{label}</p>
+        <p className="reveal text-xl font-bold">{label}</p>
 
         {/* LINHA ANIMADA */}
         <span
