@@ -10,12 +10,13 @@ export default function Header({ onMenuClick }) {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-transparent">
+    <header className="fixed top-0 left-0 w-full z-50">
 
-      <div className="px-8 py-6 flex items-center justify-between">
-        
+      {/* WRAPPER FLEX FULL WIDTH */}
+      <div className="flex items-center justify-between px-6 lg:px-16 py-6">
+
         {/* LOGO / NAME */}
-        <div 
+        <div
           onClick={scrollToTop}
           className="leading-tight cursor-pointer group"
         >
@@ -31,16 +32,15 @@ export default function Header({ onMenuClick }) {
         {/* MENU BUTTON */}
         <button
           onClick={onMenuClick}
-          className="reveal cursor-pointer flex items-center gap-6 text-xl font-bold group transition-colors duration-300 hover:text-gray-500"
+          className="reveal cursor-pointer flex items-center gap-4 text-lg font-bold group transition-colors duration-300 hover:text-gray-500"
         >
           Menu
 
-          <img 
+          <img
             src={Menu}
             alt="Menu Icon"
-            className="reveal w-8 h-6 transition-all duration-300 group-hover:h-8"
+            className="reveal w-7 h-5 transition-all duration-300 group-hover:h-7"
           />
-
         </button>
 
       </div>

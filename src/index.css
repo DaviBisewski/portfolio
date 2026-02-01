@@ -17,9 +17,47 @@ body {
 /* layout system */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 
 }
 
+.mouse-indicator {
+  width: 28px;
+  height: 45px;
+  border: 2px solid #000;
+  border-radius: 20px;
+  position: relative;
+  opacity: 0.6;
+}
+
+.mouse-indicator .wheel {
+  width: 4px;
+  height: 8px;
+  background: #000;
+  border-radius: 4px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 1.4s infinite ease-in-out;
+}
+
+@keyframes scrollWheel {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+}
