@@ -69,7 +69,7 @@ export default function Hero() {
           {/* TEXTO */}
           <div
             className="relative z-10 flex flex-col gap-4 max-w-xl order-2 lg:order-1
-                pt-40 lg:pt-120"
+                pt-40 lg:pt-90 2xl:pt-120"
           >
             <p className="reveal text-xl text-gray-500">Davi Bisewski</p>
 
@@ -117,7 +117,7 @@ export default function Hero() {
         </div>
       </div>
       {/* SCROLL INDICATOR */}
-      <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+      <div className="hidden md:block absolute lg:bottom-25 2xl:bottom-8 left-1/2 -translate-x-1/2 z-20">
         <div className="mouse-indicator">
           <span className="wheel"></span>
         </div>
