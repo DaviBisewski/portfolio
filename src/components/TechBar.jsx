@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-
-
 import Figma from "../assets/img/figma.png";
 import Github from "../assets/img/githubwhite.png";
 import Git from "../assets/img/git.png";
@@ -27,11 +25,13 @@ const techs = [
 export default function TechBar() {
   const [activeTech, setActiveTech] = useState(null);
 
+  // Lógica para alterar o cursor do mouse para o ícone da tecnologia selecionada
   const handleCursorChange = (icon) => {
     document.body.style.cursor = `url(${icon}) 16 16, auto`;
     setActiveTech(icon);
   };
 
+  // Reseta o cursor para o padrão do sistema
   const resetCursor = () => {
     document.body.style.cursor = "auto";
     setActiveTech(null);
@@ -42,61 +42,56 @@ export default function TechBar() {
       className="relative w-full bg-black py-6 z-30"
       onClick={resetCursor}
     >
-
-      {/* DESKTOP */}
-      <div
-        className="tech-reveal hidden lg:flex max-w-[1300px] mx-auto justify-center gap-6"
-        onClick={(e) => e.stopPropagation()} // impede reset ao clicar em botão
-      >
-
-        {techs.map((tech) => (
-          <button
-            key={tech.name}
-            onClick={() => handleCursorChange(tech.icon)}
-            className={`
-              cursor-pointer
-              p-3 rounded-xl
-              transition-all duration-300
-              hover:scale-110
-              hover:bg-white/10
-              ${activeTech === tech.icon ? "bg-white/20 scale-110" : ""}
-            `}
-          >
-            
-            <img
-              src={tech.icon}
-              alt={tech.name}
-              className="reveal tech-item h-10 pointer-events-none "
-            />
-          </button>
-        ))}
-
-      </div>
-
-      {/* MOBILE */}
-      <div className="lg:hidden overflow-x-auto">
-        <div className="flex gap-5 px-6 w-max">
+      {/* 
+        Container de tecnologias:
+        - Desktop: Grid centralizado
+        - Mobile: Slider horizontal com scroll escondido
+      */}
+      <div className="max-w-[1300px] mx-auto">
+        <div 
+          className="
+            flex items-center gap-6 px-6
+            overflow-x-auto lg:overflow-visible
+            lg:justify-center
+            scrollbar-hide
+          "
+          style={{ 
+            msOverflowStyle: 'none',  /* IE and Edge */
+            scrollbarWidth: 'none'    /* Firefox */
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Estilo inline para esconder scrollbar no Chrome/Safari */}
+          <style>{`
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
 
           {techs.map((tech) => (
-            <div
+            <button
               key={tech.name}
-              className="flex flex-col items-center min-w-[70px]"
+              onClick={() => handleCursorChange(tech.icon)}
+              className={`
+                flex-shrink-0
+                cursor-pointer
+                p-3 rounded-xl
+                transition-all duration-300
+                hover:scale-110
+                hover:bg-white/10
+                ${activeTech === tech.icon ? "bg-white/20 scale-110" : ""}
+              `}
             >
               <img
                 src={tech.icon}
                 alt={tech.name}
-                className="h-8 opacity-80"
+                className="reveal tech-item h-8 md:h-10 pointer-events-none opacity-80 hover:opacity-100 transition-opacity"
               />
-
-              <span className="text-white text-xs mt-2">
-                {tech.name}
-              </span>
-            </div>
+              
+            </button>
           ))}
-
         </div>
       </div>
-
     </section>
   );
 }

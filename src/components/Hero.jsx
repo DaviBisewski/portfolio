@@ -11,6 +11,7 @@ import { heroImageAnimation } from "../animations/heroImageAnimation";
 export default function Hero() {
   const heroImageRef = useRef(null);
 
+  // Lógica para inicializar animação da imagem se o usuário não preferir movimento reduzido
   useEffect(() => {
     if (!heroImageRef.current) return;
 
@@ -43,12 +44,12 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* TEXTO DECORATIVO */}
+    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-white">
+      
+      {/* Texto decorativo de fundo - Ajustado para não quebrar no mobile */}
       <span
         aria-hidden
-        className="
-          hidden lg:block
+        className="hidden lg:block
           absolute
           top-32
           left-1/2 -translate-x-1/2
@@ -57,33 +58,31 @@ export default function Hero() {
           text-inner-shadow
           opacity-[0.2]
           whitespace-nowrap
-          select-none pointer-events-none
-        "
+          select-none pointer-events-none"
       >
         Dev Júnior
       </span>
 
-      {/* CONTAINER DA HERO (1300px) */}
-      <div className="relative z-10 container mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-          {/* TEXTO */}
-          <div
-            className="relative z-10 flex flex-col gap-4 max-w-xl order-2 lg:order-1
-                pt-40 lg:pt-90 2xl:pt-120"
-          >
-            <p className="reveal text-xl text-gray-500">DAVI BISEWSKI</p>
+      {/* Container Principal */}
+      <div className="relative z-10 container mx-auto px-6 lg:px-10 flex-grow flex flex-col lg:grid lg:grid-cols-2">
+        
+        {/* Seção de Conteúdo (Texto e Links) */}
+        <div className="flex flex-col justify-center pt-32 pb-10 lg:py-0 order-1 2xl:mt-90">
+          <div className="max-w-xl">
+            <p className="reveal text-lg md:text-xl text-gray-500 font-medium ">DAVI BISEWSKI</p>
 
-            <h1 className="reveal text-4xl md:text-7xl font-bold">
-              Desenvolvedor Júnior
+            <h1 className="reveal text-4xl md:text-7xl font-bold leading-tight mb-6">
+              Desenvolvedor <span className="text-gray-800">Júnior</span>
             </h1>
 
-            <p className="reveal text-lg leading-relaxed">
+            <p className="reveal text-base md:text-lg leading-relaxed text-gray-700 mb-8">
               Formado no Instituto Federal Catarinense em Informática para
               Internet e futuro Engenheiro de Software pela Católica de Santa
               Catarina. Sou um jovem dev com experiências reais.
             </p>
 
-            <div className="flex flex-wrap gap-6 mt-6">
+            {/* Links Sociais */}
+            <div className="flex flex-nowrap md:flex-wrap items-center gap-6 md:gap-6 mt-6">
               {socialLinks.map((item) => (
                 <SocialButton
                   key={item.label}
@@ -95,29 +94,32 @@ export default function Hero() {
               ))}
             </div>
           </div>
+        </div>
 
-          {/* IMAGEM */}
-          <div className="relative z-20 flex justify-center lg:justify-end items-end order-1 lg:order-2">
-            <img
-              ref={heroImageRef}
-              src={HeroImage}
-              alt="Davi Bisewski"
-              className="
-                reveal
-                pointer-events-none
-                -translate-y-6
-                w-[260px]
-                sm:w-[320px]
-                md:w-[380px]
-                lg:w-[400px]
-                xl:w-[540px]
-              "
-            />
-          </div>
+        {/* Seção da Imagem - Agora abaixo no mobile e grudada no bottom */}
+        <div className="relative flex justify-center lg:justify-end items-end order-2 mt-auto">
+          <img
+            ref={heroImageRef}
+            src={HeroImage}
+            alt="Davi Bisewski"
+            className="
+              reveal
+              pointer-events-none
+              w-[280px]
+              sm:w-[350px]
+              md:w-[420px]
+              lg:w-[450px]
+              xl:w-[580px]
+              object-contain
+              block
+            "
+            style={{ marginBottom: '-1px' }} // Garante que não haja frestas no fundo
+          />
         </div>
       </div>
-      {/* SCROLL INDICATOR */}
-      <div className="hidden md:block absolute lg:bottom-25 2xl:bottom-8 left-1/2 -translate-x-1/2 z-20">
+
+      {/* Indicador de Scroll - Oculto em telas muito pequenas para não sobrepor a imagem */}
+      <div className="hidden lg:block absolute bottom-10 left-1/2 -translate-x-1/2 z-30">
         <div className="mouse-indicator">
           <span className="wheel"></span>
         </div>
