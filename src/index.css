@@ -2,6 +2,12 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+
+}
+
+html, body{
+ overflow-x: hidden ;
+
 }
 
 @import "tailwindcss";
@@ -46,6 +52,8 @@ body {
   animation: scrollWheel 1.4s infinite ease-in-out;
 }
 
+
+
 @keyframes scrollWheel {
   0% {
     opacity: 0;
@@ -61,3 +69,5 @@ body {
     transform: translate(-50%, 12px);
   }
 }
+
+
