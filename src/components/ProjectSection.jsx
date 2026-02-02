@@ -16,14 +16,14 @@ export default function ProjectsSection() {
     },
     {
       year: "2024",
-      title: "Bensa StreetWear",
+      title: "E-Commerce Bensa StreetWear",
       image: Bensa,
       link: "https://bensa.vercel.app",
      
     },
     {
       year: "2025",
-      title: "Outro Projeto",
+      title: "Sistema La Casa Di Frango",
       image: Outro,
       link: "#",
       

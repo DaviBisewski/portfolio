@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react'; // Usando lucide-react para o ícone de fechar
+import { X } from 'lucide-react'; 
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const menuLinks = [
   { name: 'Projetos', href: '#projetos' },
@@ -11,26 +15,33 @@ const menuLinks = [
   { name: 'Github', href: 'https://github.com/DaviBisewski', target: '_blank', external: true },
 ];
 
+gsap.registerPlugin(ScrollToPlugin);
+
+
+
 export default function Menu({ isOpen, onClose }) {
+  
+  // Função de scroll com GSAP
+  const scrollToSection = (target, isTop = false) => {
+    onClose(); // Inicia o fechamento do menu
 
-     const handleLinkClick = (e, href, isExternal) => {
+    // Aguarda o menu sair (0.6s) e então faz o scroll profissional com GSAP
+    setTimeout(() => {
+      gsap.to(window, {
+        duration: 1.5, // Duração da animação (ajuste conforme preferir)
+        scrollTo: isTop ? 0 : target,
+        ease: "power4.inOut", // Efeito de aceleração e desaceleração suave
+      });
+    }, 600);
+  };
+
+  const handleLinkClick = (e, href, isExternal) => {
     if (!isExternal) {
-      e.preventDefault();}
-
-       const targetId = href.replace('#', '');
-      const elem = document.getElementById(targetId);
-
-       onClose();
-      
-        if (elem) {
-        setTimeout(() => {
-          elem.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-          });
-        }, 600); // Aguarda a animação de saída do menu (0.6s)
-      }
+      e.preventDefault();
+      scrollToSection(href);
     }
+  };
+
   
   return (
     <AnimatePresence>
