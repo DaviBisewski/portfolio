@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import GithubIcon from "../assets/img/github.png";
 import LinkedinIcon from "../assets/img/linkedin.png";
 import DownloadIcon from "../assets/img/download.png";
-import HeroImage from "../assets/img/foto.png";
+import HeroImage from "../assets/img/Foto.png";
 
 import SocialButton from "../components/SocialButton";
 import { heroImageAnimation } from "../animations/heroImageAnimation";
