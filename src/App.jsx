@@ -8,6 +8,8 @@ import CallToAction from "./components/CallToAction";
 import GithubIcon from "./assets/img/github.png";
 import Map from "./components/Map";
 import Arrow from "./assets/img/arrowright.png";
+import Footer from "./components/Footer";
+import FixedButtons from "./components/FixedButtons";
 function App() {
   useReveal();
   return (
@@ -29,10 +31,12 @@ function App() {
          <CallToAction
           smallText="PRECISA DE UM DEV?"
           largeText="Vamos trabalhar juntos"
-          link="https://github.com/DaviBisewski"
+          link="https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho."
           Icon={Arrow}
         />
+        <FixedButtons />
       </main>
+      <Footer />
     </>
   );
 }

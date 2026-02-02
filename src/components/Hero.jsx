@@ -30,7 +30,7 @@ export default function Hero() {
       label: "GitHub",
     },
     {
-      href: "https://linkedin.com/in/seuperfil",
+      href: "https://linkedin.com/in/davibisewski",
       icon: LinkedinIcon,
       label: "LinkedIn",
     },
