@@ -71,9 +71,9 @@ export default function Hero() {
             className="relative z-10 flex flex-col gap-4 max-w-xl order-2 lg:order-1
                 pt-40 lg:pt-90 2xl:pt-120"
           >
-            <p className="reveal text-xl text-gray-500">Davi Bisewski</p>
+            <p className="reveal text-xl text-gray-500">DAVI BISEWSKI</p>
 
-            <h1 className="reveal text-4xl md:text-6xl font-bold">
+            <h1 className="reveal text-4xl md:text-7xl font-bold">
               Desenvolvedor Júnior
             </h1>
 

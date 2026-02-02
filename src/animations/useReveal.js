@@ -19,7 +19,7 @@ export default function useReveal() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 1,
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,

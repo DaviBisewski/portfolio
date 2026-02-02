@@ -21,7 +21,7 @@ export default function Header({ onMenuClick }) {
           className="leading-tight cursor-pointer group"
         >
           <p className="reveal font-bold text-2xl transition-colors duration-300 group-hover:text-gray-500">
-            Davi Bisewski
+            DAVI BISEWSKI
           </p>
 
           <p className="reveal text-sm transition-colors duration-300 group-hover:text-gray-500">

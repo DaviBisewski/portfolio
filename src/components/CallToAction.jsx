@@ -1,13 +1,13 @@
 import React from 'react';
 
 export default function CallToAction({ 
-  smallText = "GOSTOU DO QUE VIU?", 
-  largeText = "Acompanhe mais projetos", 
-  link = "https://github.com/DaviBisewski", 
+  smallText , 
+  largeText , 
+  link , 
   Icon 
 } ) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
+    <div className="flex flex-col items-center justify-center py-30 text-center">
       {/* TEXTO PEQUENO */}
       <span className="reveal text-xs md:text-base font-medium tracking-[0.2em] text-gray-500 uppercase mb-4">
         {smallText}
@@ -18,7 +18,7 @@ export default function CallToAction({
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex items-center gap-3 text-4xl md:text-6xl font-bold text-black transition-colors"
+        className="group relative flex items-center gap-3 text-4xl md:text-7xl font-bold text-black transition-colors"
       >
         <span className="relative reveal">
           {largeText}
@@ -28,7 +28,7 @@ export default function CallToAction({
 
         {/* ÍCONE */}
         {Icon && (
-          <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:rotate-12">
+          <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:scale-110">
              <img src={Icon} alt="icon" className="reveal w-full h-full object-contain" />
           </div>
         )}

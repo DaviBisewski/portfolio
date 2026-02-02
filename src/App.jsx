@@ -6,32 +6,33 @@ import SectionTitle from "./components/SectionTittle";
 import ProjectSection from "./components/ProjectSection";
 import CallToAction from "./components/CallToAction";
 import GithubIcon from "./assets/img/github.png";
+import Map from "./components/Map";
+import Arrow from "./assets/img/arrowright.png";
 function App() {
- 
   useReveal();
   return (
     <>
-        <Header />
-        <main>
+      <Header />
+      <main>
         <Hero />
         <TechBar />
-        <SectionTitle 
-        small="EXPERIÊNCIAS" 
-        big="Alguns Projetos"/>
+        <SectionTitle small="EXPERIÊNCIAS" big="Alguns Projetos" />
         <ProjectSection />
-        <CallToAction 
-  smallText="GOSTOU DO QUE VIU?"
-  largeText="Acompanhe mais projetos"
-  link="https://github.com/DaviBisewski"
-  Icon={GithubIcon}
-/>
- <SectionTitle 
-        small="ESTUDOS" 
-        big="Meus Conhecimentos"/>
-
-        </main>
-
-
+        <CallToAction
+          smallText="GOSTOU DO QUE VIU?"
+          largeText="Acompanhe mais projetos"
+          link="https://github.com/DaviBisewski"
+          Icon={GithubIcon}
+        />
+        <SectionTitle small="ESTUDOS" big="Meus Conhecimentos" />
+        <Map />
+         <CallToAction
+          smallText="PRECISA DE UM DEV?"
+          largeText="Vamos trabalhar juntos"
+          link="https://github.com/DaviBisewski"
+          Icon={Arrow}
+        />
+      </main>
     </>
   );
 }

@@ -66,7 +66,7 @@ export default function TechBar() {
             <img
               src={tech.icon}
               alt={tech.name}
-              className="tech-item h-10 pointer-events-none "
+              className="reveal tech-item h-10 pointer-events-none "
             />
           </button>
         ))}
