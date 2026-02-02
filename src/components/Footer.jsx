@@ -67,7 +67,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="w-full bg-white pt-16 pb-8 px-6 md:px-12">
+    <footer id='contatos' className="w-full bg-white pt-16 pb-8 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         
         {/* 1. Contato */}

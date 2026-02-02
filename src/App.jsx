@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import useReveal from "./animations/useReveal";
 import Hero from "./components/Hero";
@@ -10,15 +11,25 @@ import Map from "./components/Map";
 import Arrow from "./assets/img/arrowright.png";
 import Footer from "./components/Footer";
 import FixedButtons from "./components/FixedButtons";
+import Menu from "./components/Menu";
 function App() {
   useReveal();
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);}
   return (
     <>
-      <Header />
+    <Header onMenuClick={toggleMenu} />
+    <Menu isOpen={isMenuOpen} onClose={toggleMenu} />
+
+
       <main>
         <Hero />
         <TechBar />
-        <SectionTitle small="EXPERIÊNCIAS" big="Alguns Projetos" />
+        <div id="projetos">
+        <SectionTitle small="EXPERIÊNCIAS" big="Alguns Projetos" id="projetos" />
+        </div>
         <ProjectSection />
         <CallToAction
           smallText="GOSTOU DO QUE VIU?"
@@ -26,7 +37,9 @@ function App() {
           link="https://github.com/DaviBisewski"
           Icon={GithubIcon}
         />
+        <div id="conhecimentos">
         <SectionTitle small="ESTUDOS" big="Meus Conhecimentos" />
+        </div>
         <Map />
          <CallToAction
           smallText="PRECISA DE UM DEV?"

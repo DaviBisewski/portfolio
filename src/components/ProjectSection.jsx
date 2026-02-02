@@ -31,7 +31,7 @@ export default function ProjectsSection() {
   ];
 
   return (
-    <section className="max-w-[1300px] mx-auto px-6 py-24">
+    <section id="projetos" className="max-w-[1300px] mx-auto px-6 py-24">
 
       <div
         className="

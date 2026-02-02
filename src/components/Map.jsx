@@ -59,7 +59,7 @@ const EducationMap = () => {
   }, [hasStarted]);
 
   return (
-    <div ref={sectionRef} className="w-full max-w-7xl mx-auto py-20 px-6 font-sans">
+    <div ref={sectionRef}  className="w-full max-w-7xl mx-auto py-20 px-6 font-sans">
       <div className="relative flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-0">
         
         {/* LADO ESQUERDO: Iframe do Mapa */}
