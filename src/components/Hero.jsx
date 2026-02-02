@@ -109,8 +109,8 @@ export default function Hero() {
                 w-[260px]
                 sm:w-[320px]
                 md:w-[380px]
-                lg:w-[460px]
-                xl:w-[600px]
+                lg:w-[400px]
+                xl:w-[540px]
               "
             />
           </div>
