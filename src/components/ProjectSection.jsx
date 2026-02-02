@@ -12,21 +12,21 @@ export default function ProjectsSection() {
       title: "Landing Page La Casa Di Frango",
       image: CasaFrango,
       link: "https://casadifrango.netlify.app",
-      bg: "bg-green-900"
+      
     },
     {
       year: "2024",
       title: "Bensa StreetWear",
       image: Bensa,
       link: "https://bensa.vercel.app",
-      bg: "bg-red-600"
+     
     },
     {
       year: "2025",
       title: "Outro Projeto",
       image: Outro,
       link: "#",
-      bg: "bg-zinc-800"
+      
     },
   ];
 

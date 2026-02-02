@@ -24,7 +24,7 @@ export default function ProjectCard({
         src={image}
         alt={title}
         className="
-          w-full h-full object-cover
+          reveal w-full h-full object-cover
           transition-all duration-500
           group-hover:scale-105
           group-hover:brightness-50
