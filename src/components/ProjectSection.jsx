@@ -2,7 +2,7 @@ import ProjectCard from "./ProjectCard";
 
 import CasaFrango from "../assets/img/posterLanding.png";
 import Bensa from "../assets/img/posterBensa.png";
-import Outro from "../assets/img/posterBensa.png";
+import Outro from "../assets/img/posterOutro.png";
 
 export default function ProjectsSection() {
 
@@ -25,7 +25,7 @@ export default function ProjectsSection() {
       year: "2025",
       title: "Sistema La Casa Di Frango",
       image: Outro,
-      link: "#",
+      link: "https://github.com/orgs/LaCasaDiFrango/repositories",
       
     },
   ];
