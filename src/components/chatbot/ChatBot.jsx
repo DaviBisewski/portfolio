@@ -20,6 +20,8 @@ import {
   CHATBOT_ANIMATIONS,
 } from '../../components/scroll/chatbotAnimations';
 
+import { SYSTEM_PROMPT } from '../../components/scroll/chatbotKnowledge';
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -72,11 +74,7 @@ const ChatBot = () => {
     };
   }, [isOpen]);
 
-  const systemPrompt = `
-Você é um assistente de IA pessoal de Davi Bisewski.
-Seja amigável, moderno e profissional.
-Responda de forma objetiva.
-`;
+  const systemPrompt = SYSTEM_PROMPT;
 
   const handleSendMessage = async (
     messageText = null
@@ -179,16 +177,19 @@ Responda de forma objetiva.
               border
               border-white/10
               bg-black
-              px-5
-              py-3
+              px-4
+              py-2
+              sm:px-5
+              sm:py-3
               text-sm
               font-medium
               text-white
               shadow-[0_10px_40px_rgba(0,0,0,0.45)]
               transition-all
               duration-300
-              hover:-translate-y-1
-              hover:bg-gray-900
+              active:scale-95
+              sm:hover:-translate-y-1
+              sm:hover:bg-gray-900
             "
           >
             <div
@@ -256,6 +257,7 @@ Responda de forma objetiva.
           flex
           h-full
           w-full
+          sm:w-96
           md:max-w-[420px]
           flex-col
           border-l
@@ -279,8 +281,10 @@ Responda de forma objetiva.
             justify-end
             border-b
             border-black/5
-            px-5
-            py-5
+            px-3
+            py-3
+            sm:px-5
+            sm:py-5
           "
         >
           <button
@@ -299,8 +303,9 @@ Responda de forma objetiva.
               text-gray-600
               transition-all
               duration-300
-              hover:scale-105
-              hover:text-black
+              active:scale-95
+              sm:hover:scale-105
+              sm:hover:text-black
             "
           >
             <X size={18} />
@@ -314,9 +319,11 @@ Responda de forma objetiva.
               flex
               flex-col
               items-center
-              px-8
-              pt-8
-              pb-6
+              px-4
+              py-6
+              sm:px-8
+              sm:pt-8
+              sm:pb-6
             "
           >
             {/* Sphere */}
@@ -328,7 +335,9 @@ Responda de forma objetiva.
                 text="Olá, eu sou o assistente do Davi."
                 isActive={isOpen}
                 className="
-                  text-[24px]
+                  text-xl
+                  sm:text-2xl
+                  md:text-[24px]
                   font-semibold
                   leading-[1.2]
                   tracking-[-0.03em]
@@ -339,8 +348,10 @@ Responda de forma objetiva.
               <p
                 className="
                   animate-fade-text
-                  mt-3
-                  text-[13px]
+                  mt-2
+                  sm:mt-3
+                  text-xs
+                  sm:text-[13px]
                   leading-6
                   text-gray-500
                 "
@@ -359,8 +370,10 @@ Responda de forma objetiva.
             chatbot-scroll
             flex-1
             overflow-y-auto
-            px-4
-            py-3
+            px-3
+            py-2
+            sm:px-4
+            sm:py-3
           "
         >
           <div className="flex flex-col gap-4">
@@ -380,11 +393,16 @@ Responda de forma objetiva.
                 <div
                   className={`
                     max-w-[85%]
-                    rounded-3xl
-                    px-4
-                    py-3
-                    text-[14px]
-                    leading-7
+                    rounded-2xl
+                    sm:rounded-3xl
+                    px-3
+                    py-2
+                    sm:px-4
+                    sm:py-3
+                    text-xs
+                    sm:text-[14px]
+                    leading-6
+                    sm:leading-7
                     ${
                       message.type === 'user'
                         ? 'bg-black text-white'
@@ -439,8 +457,10 @@ Responda de forma objetiva.
             className="
               border-t
               border-black/5
-              px-4
+              px-3
               py-2
+              sm:px-4
+              sm:py-2
             "
           >
             <p
@@ -472,23 +492,30 @@ Responda de forma objetiva.
                     border
                     border-black/5
                     bg-white
-                    px-4
-                    py-3
-                    text-sm
+                    px-3
+                    py-2
+                    sm:px-4
+                    sm:py-3
+                    text-xs
+                    sm:text-sm
                     font-medium
                     text-gray-700
                     transition-all
                     duration-300
-                    hover:-translate-y-1
-                    hover:bg-gray-50
-                    hover:shadow-[0_8px_16px_rgba(0,0,0,0.1)]
+                    active:scale-95
+                    active:bg-gray-100
+                    sm:hover:-translate-y-1
+                    sm:hover:bg-gray-50
+                    sm:hover:shadow-[0_8px_16px_rgba(0,0,0,0.1)]
                   "
                 >
                   <span
                     className="
                       flex
-                      h-7
-                      w-7
+                      h-6
+                      w-6
+                      sm:h-7
+                      sm:w-7
                       items-center
                       justify-center
                       rounded-full
@@ -511,27 +538,32 @@ Responda de forma objetiva.
             border-t
             border-black/5
             bg-white
-            px-4
+            px-3
             py-2
+            sm:px-4
+            sm:py-2
           "
         >
           <div
             className="
               flex
               items-center
-              gap-3
-              rounded-2xl
+              gap-2
+              sm:gap-3
+              rounded-xl
+              sm:rounded-2xl
               border
               border-black/5
               bg-white
               p-2
+              sm:p-2
             "
           >
             <input
               type="text"
               value={inputValue}
               disabled={isLoading}
-              placeholder="Digite sua pergunta..."
+              placeholder="Sua pergunta..."
               onChange={(e) =>
                 setInputValue(e.target.value)
               }
@@ -539,8 +571,11 @@ Responda de forma objetiva.
               className="
                 flex-1
                 bg-transparent
-                px-3
+                px-2
+                sm:px-3
+                py-2
                 text-sm
+                sm:text-base
                 text-gray-800
                 outline-none
                 placeholder:text-gray-400
@@ -554,18 +589,22 @@ Responda de forma objetiva.
               }
               className="
                 flex
-                h-11
-                w-11
+                h-10
+                w-10
+                sm:h-11
+                sm:w-11
                 cursor-pointer
                 items-center
                 justify-center
-                rounded-xl
+                rounded-lg
+                sm:rounded-xl
                 bg-black
                 text-white
                 transition-all
                 duration-300
-                hover:scale-105
-                hover:bg-gray-900
+                active:scale-90
+                sm:hover:scale-105
+                sm:hover:bg-gray-900
                 disabled:pointer-events-none
                 disabled:opacity-40
               "

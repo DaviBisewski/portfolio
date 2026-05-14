@@ -45,6 +45,21 @@ export const CHATBOT_ANIMATIONS = `
   }
 
   /* ===================================
+     MOBILE TOUCH OPTIMIZATION
+  =================================== */
+  @media (hover: none) and (pointer: coarse) {
+    /* Desabilita transformações de hover em dispositivos touch */
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Remove as classes sm:hover* que eram aplicadas */
+    button[class*="hover"] {
+      pointer-events: auto;
+    }
+  }
+
+  /* ===================================
      HERO AI SPHERE
   =================================== */
 
