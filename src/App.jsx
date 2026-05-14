@@ -12,6 +12,7 @@ import Arrow from "./assets/img/arrowright.png";
 import Footer from "./components/Footer";
 import FixedButtons from "./components/FixedButtons";
 import Menu from "./components/Menu";
+import ChatBot from "./components/chatbot/ChatBot";
 function App() {
   useReveal();
    const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,6 +49,7 @@ function App() {
           Icon={Arrow}
         />
         <FixedButtons />
+        <ChatBot />
       </main>
       <Footer />
     </>
