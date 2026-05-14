@@ -107,66 +107,87 @@ const ChatBot = () => {
 
     setIsLoading(true);
 
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `${systemPrompt}\n\nPergunta do usuário: ${textToSend}`,
-                  },
-                ],
-              },
-            ],
-            generationConfig: {
-              maxOutputTokens: 1024,
-              temperature: 0.7,
+    const makeRequest = async (attempt = 1) => {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type':
+                'application/json',
             },
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData?.error?.message || `HTTP ${response.status}`
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: `${systemPrompt}\n\nPergunta do usuário: ${textToSend}`,
+                    },
+                  ],
+                },
+              ],
+              generationConfig: {
+                maxOutputTokens: 1024,
+                temperature: 0.7,
+              },
+            }),
+          }
         );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          const errorMessage = errorData?.error?.message || `HTTP ${response.status}`;
+
+          // Se for rate limit (429 ou quota exceeded), tenta novamente
+          if (
+            response.status === 429 ||
+            errorMessage.includes('quota')
+          ) {
+            if (attempt < 3) {
+              const waitTime = Math.pow(2, attempt) * 1000; // Exponential backoff
+              await new Promise((resolve) =>
+                setTimeout(resolve, waitTime)
+              );
+              return makeRequest(attempt + 1);
+            }
+            throw new Error(
+              '⏳ Limite de requisições atingido. Tente em alguns minutos.'
+            );
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        const data = await response.json();
+
+        const botResponse =
+          data?.candidates?.[0]?.content?.parts?.[0]
+            ?.text ||
+          'Não consegui gerar uma resposta agora.';
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: 'bot',
+            text: botResponse,
+          },
+        ]);
+      } catch (error) {
+        console.error('Chat error:', error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: 'bot',
+            text: `Erro: ${error.message || 'Tente novamente em alguns instantes.'}`,
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      const data = await response.json();
-
-      const botResponse =
-        data?.candidates?.[0]?.content?.parts?.[0]
-          ?.text ||
-        'Não consegui gerar uma resposta agora.';
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: 'bot',
-          text: botResponse,
-        },
-      ]);
-    } catch (error) {
-      console.error('Chat error:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          type: 'bot',
-          text: `Erro: ${error.message || 'Tente novamente em alguns instantes.'}`,
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
+    makeRequest();
   };
 
   const handleKeyPress = (e) => {

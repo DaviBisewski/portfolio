@@ -1,4 +1,31 @@
-# React + Vite
+# Portfolio - Davi Bisewski
+
+Portfólio pessoal com chatbot alimentado por Google Gemini API.
+
+## 🔑 Configuração da API
+
+### Variáveis de Ambiente
+
+```env
+VITE_GEMINI_API_KEY=sua_chave_aqui
+```
+
+### Monitorar Quota da API
+
+- [Google AI Studio - API Keys](https://aistudio.google.com/app/apikey)
+- [Google Cloud Console - Quotas](https://console.cloud.google.com/quotas)
+- [Google Cloud Console - Usage](https://console.cloud.google.com/iam-admin/quotas)
+
+**Free Tier Limits:**
+- 15 requisições/minuto
+- 1 milhão de tokens/dia
+- Recarrega todo dia à 00h UTC
+
+Para aumentar os limites: Link uma conta de Billing (não cobra enquanto estiver dentro da quota gratuita).
+
+---
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
