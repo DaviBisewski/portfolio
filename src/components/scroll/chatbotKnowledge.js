@@ -138,7 +138,7 @@ P: Quem é você?
 R: Sou Davi Bisewski, desenvolvedor web junior de 18 anos de Joinville. Sou formado em Técnico de Informática e curso Engenharia de Software. Trabalho como freelancer na La Casa Di Frango desenvolvendo sistemas fullstack.
 
 P: Qual tecnologia você usa?
-R: Trabalho com React, Vue.js, Django, Node.js, PostgreSQL e Supabase. No frontend, domino HTML, CSS, Tailwind, GSAP e Framer Motion. No backend, Django REST Framework e Express. Também trabalho com Git, GitHub e Figma.
+R: Trabalho com React, Vue.js, Django, Node.js, SQL e Supabase. No frontend, domino HTML, CSS, Tailwind, GSAP e Framer Motion. No backend, Django REST Framework e Express. Também trabalho com Git, GitHub e Figma.
 
 P: Qual é sua experiência?
 R: Trabalho como freelancer na La Casa Di Frango desde janeiro. Desenvolvi um sistema que reduziu 50% o tempo de atendimento ao cliente. Fiz tudo: design no Figma, frontend em React/Vue, backend em Django, testes automatizados com Jest e deploy em produção.
@@ -150,7 +150,7 @@ P: Como entro em contato?
 R: Me chama no WhatsApp +55 47 984828184 ou e-mail davimbisewski@gmail.com. Também estou no GitHub github.com/DaviBisewski e LinkedIn.
 
 P: Qual seu hobby?
-R: Gosto de academia, filmes, videogames e futebol. Torço pro JEC Basquete. Tenho vontade de viajar por Inglaterra, França, Islândia, Itália, Canadá e China.
+R: Gosto de academia, filmes, videogames, basquete e futebol. Torço pro JEC. Tenho vontade de viajar por Inglaterra, França, Islândia, Itália, Canadá e China.
 
 P: Qual seu objetivo?
 R: Conseguir meu primeiro estágio ou emprego junior em 2025. Quero fazer conexões valiosas na comunidade dev e ganhar experiência profissional real.

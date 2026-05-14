@@ -82,7 +82,18 @@ const ChatBot = () => {
     const textToSend =
       messageText || inputValue.trim();
 
-    if (!textToSend || !apiKey) return;
+    if (!textToSend) return;
+
+    if (!apiKey) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: 'bot',
+          text: '❌ Chave de API não configurada. Contate o desenvolvedor.',
+        },
+      ]);
+      return;
+    }
 
     setMessages((prev) => [
       ...prev,
@@ -98,7 +109,7 @@ const ChatBot = () => {
 
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {
@@ -123,6 +134,13 @@ const ChatBot = () => {
         }
       );
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData?.error?.message || `HTTP ${response.status}`
+        );
+      }
+
       const data = await response.json();
 
       const botResponse =
@@ -137,12 +155,13 @@ const ChatBot = () => {
           text: botResponse,
         },
       ]);
-    } catch {
+    } catch (error) {
+      console.error('Chat error:', error);
       setMessages((prev) => [
         ...prev,
         {
           type: 'bot',
-          text: 'Erro ao processar sua mensagem.',
+          text: `Erro: ${error.message || 'Tente novamente em alguns instantes.'}`,
         },
       ]);
     } finally {
