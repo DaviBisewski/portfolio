@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import useReveal from "./animations/useReveal";
 import Hero from "./components/Hero";
 import TechBar from "./components/TechBar";
-import SectionTitle from "./components/SectionTittle";
+import SectionTitle from "./components/SectionTitle";
 import ProjectSection from "./components/ProjectSection";
 import CallToAction from "./components/CallToAction";
 import GithubIcon from "./assets/img/github.png";
@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import FixedButtons from "./components/FixedButtons";
 import Menu from "./components/Menu";
 import ChatBot from "./components/chatbot/ChatBot";
+import { SOCIAL_URLS } from "./constants";
 function App() {
   useReveal();
    const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +36,7 @@ function App() {
         <CallToAction
           smallText="GOSTOU DO QUE VIU?"
           largeText="Acompanhe mais projetos"
-          link="https://github.com/DaviBisewski"
+          link={SOCIAL_URLS.github}
           Icon={GithubIcon}
         />
         <div id="conhecimentos">
@@ -45,7 +46,7 @@ function App() {
          <CallToAction
           smallText="PRECISA DE UM DEV?"
           largeText="Vamos trabalhar juntos"
-          link="https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho."
+          link={SOCIAL_URLS.whatsapp}
           Icon={Arrow}
         />
         <FixedButtons />

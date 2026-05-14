@@ -3,21 +3,19 @@ export default function ProjectCard({
   title,
   image,
   link,
-  bgColor
 }) {
   return (
     <a
       href={link}
       target="_blank"
       rel="noreferrer"
-      className={`
+      className="
         group
         relative
         block
         overflow-hidden
         cursor-pointer
-        ${bgColor}
-      `}
+      "
     >
       {/* IMAGEM */}
       <img

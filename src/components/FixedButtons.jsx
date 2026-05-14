@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Letter from '../assets/img/mensagem.png'; 
 import ArrowUp from '../assets/img/arrowup.png';
-
-// Registra o plugin do GSAP
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollToPlugin);
-}
+import { SOCIAL_URLS } from '../constants';
+import { scrollToTop } from '../hooks/useScrollToSection';
 
 const FixedButtons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -15,7 +10,6 @@ const FixedButtons = () => {
   // Monitora o scroll para mostrar/esconder o botão de voltar ao topo
   useEffect(() => {
     const handleScroll = () => {
-      // Aparece após 300px de scroll
       if (window.scrollY > 300) {
         setShowScrollTop(true);
       } else {
@@ -27,21 +21,12 @@ const FixedButtons = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
-    // Implementação do scroll suave com GSAP para garantir funcionamento no Opera GX
-    gsap.to(window, {
-      duration: 1.2,
-      scrollTo: { y: 0 },
-      ease: "power3.inOut"
-    });
-  };
-
   const buttonBaseStyle = "fixed bottom-8 z-50 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-[#E5E5E5] backdrop-blur-sm shadow-sm hover:bg-[#D4D4D4] transition-all duration-500 ease-in-out group overflow-hidden";
 
   return (
     <>
       <a
-        href="https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho."
+        href={SOCIAL_URLS.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
         className={`${buttonBaseStyle} left-8`}

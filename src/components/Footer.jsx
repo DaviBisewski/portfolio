@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SOCIAL_URLS } from '../constants';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,7 +10,7 @@ const Footer = () => {
   const [localTime, setLocalTime] = useState('');
   const hasAnimated = useRef(false);
 
-  // Função para obter o horário de Brasília em tempo real
+  // Obter o horário de Brasília em tempo real
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -70,34 +71,33 @@ const Footer = () => {
     <footer id='contatos' className="w-full bg-white pt-16 pb-8 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         
-        {/* 1. Contato */}
+        {/* Seção de Contato */}
         <div className="mb-2">
           <h2 className="text-xl font-bold text-black uppercase tracking-tight">Contato</h2>
         </div>
 
-        {/* 2. Linha Divisória Superior */}
+        {/* Linha Divisória */}
         <div className="w-full h-[1px] bg-gray-300 mb-12"></div>
 
-        {/* 3. Email com Animação e Hover Criativo */}
+        {/* Email com Animação */}
         <div className="mb-16">
           <a
             href="mailto:davimbisewski@gmail.com"
             ref={emailRef}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-400  hover:bg-clip-text  hover:text-black transition-colors duration-500 ease-in-out inline-block break-all"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-400 hover:text-black transition-colors duration-500 ease-in-out inline-block break-all"
           >
-            {/* GSAP preenche aqui */}
           </a>
         </div>
 
-        {/* 4. Linha Divisória Inferior */}
+        {/* Linha Divisória */}
         <div className="w-full h-[1px] bg-gray-300 mb-8"></div>
 
-        {/* 5. Links Sociais */}
+        {/* Links Sociais */}
         <div className="grid grid-cols-2 md:flex md:justify-between gap-6 mb-16">
-          <a href="https://github.com/davimbisewski" target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Github</a>
-          <a href="https://linkedin.com/in/davibisewski" target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Linkedin</a>
+          <a href={SOCIAL_URLS.github} target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Github</a>
+          <a href={SOCIAL_URLS.linkedin} target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Linkedin</a>
           <a href="https://instagram.com/davi_bisewski" target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Instagram</a>
-          <a href="https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho." target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Whatsapp</a>
+          <a href={SOCIAL_URLS.whatsapp} target="_blank" rel="noreferrer" className="text-xl font-bold text-black hover:opacity-60 transition-opacity">Whatsapp</a>
         </div>
 
         {/* 6. Rodapé Final (Nome e Localização/Tempo) */}

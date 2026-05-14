@@ -49,7 +49,6 @@ export default function ProjectsSection() {
             title={project.title}
             image={project.image}
             link={project.link}
-            bgColor={project.bg}
           />
         ))}
       </div>

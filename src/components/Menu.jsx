@@ -1,44 +1,19 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react'; 
-import { gsap } from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-
-gsap.registerPlugin(ScrollToPlugin);
-
-const menuLinks = [
-  { name: 'Projetos', href: '#projetos' },
-  { name: 'Conhecimentos', href: '#conhecimentos' },
-  { name: 'Contatos', href: '#contatos' },
-  { name: 'WhatsApp', href: 'https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho.', target: '_blank', external: true },
-  { name: 'Linkedin', href: 'https://linkedin.com/in/davibisewski', target: '_blank', external: true },
-  { name: 'Github', href: 'https://github.com/DaviBisewski', target: '_blank', external: true },
-];
-
-gsap.registerPlugin(ScrollToPlugin);
-
-
+import { useScrollToSection } from '../hooks/useScrollToSection';
+import { MENU_LINKS } from '../constants';
 
 export default function Menu({ isOpen, onClose }) {
+  const { scrollToSection } = useScrollToSection();
   
-  // Função de scroll com GSAP
-  const scrollToSection = (target, isTop = false) => {
-    onClose(); // Inicia o fechamento do menu
-
-    // Aguarda o menu sair (0.6s) e então faz o scroll profissional com GSAP
-    setTimeout(() => {
-      gsap.to(window, {
-        duration: 1.5, // Duração da animação (ajuste conforme preferir)
-        scrollTo: isTop ? 0 : target,
-        ease: "power4.inOut", // Efeito de aceleração e desaceleração suave
-      });
-    }, 600);
-  };
-
   const handleLinkClick = (e, href, isExternal) => {
     if (!isExternal) {
       e.preventDefault();
-      scrollToSection(href);
+      onClose();
+      setTimeout(() => {
+        scrollToSection(href);
+      }, 600);
     }
   };
 
@@ -79,7 +54,7 @@ export default function Menu({ isOpen, onClose }) {
           <div className="flex-1 flex flex-col items-center justify-center space-y-4">
             <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-4">MENU</p>
             <nav className="flex flex-col items-center">
-              {menuLinks.map((link, index) => (
+              {MENU_LINKS.map((link, index) => (
                 <motion.a
                   key={link.name}
                   href={link.href}

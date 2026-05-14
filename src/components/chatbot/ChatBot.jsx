@@ -1,114 +1,152 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send } from 'lucide-react';
+
+import {
+  X,
+  ArrowUp,
+  Sparkles,
+  User,
+  Briefcase,
+  Code2,
+  Phone,
+} from 'lucide-react';
+
 import AiIcon from '../../assets/img/ai.png';
+
+import TypewriterText from '../../components/chatbot/TypewriterText';
+
+import AnimatedOrb from '../../components/chatbot/AnimatedOrb';
+
+import {
+  CHATBOT_ANIMATIONS,
+} from '../../components/scroll/chatbotAnimations';
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      type: 'bot',
-      text: 'Olá! Sou o assistente de IA do Davi. Clique em uma das opções abaixo ou faça sua pergunta.',
-      isInitial: true
-    }
-  ]);
+
+  const [messages, setMessages] = useState([]);
+
   const [inputValue, setInputValue] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
+
   const messagesEndRef = useRef(null);
+
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   const quickMessages = [
-    { label: '👤 Quem é você?', text: 'Quem é você?' },
-    { label: '🚀 Projetos', text: 'Me conta sobre La Casa Di Frango' },
-    { label: '💻 Skills', text: 'Quais tecnologias você usa?' },
-    { label: '📞 Contato', text: 'Como posso entrar em contato?' },
+    {
+      label: 'Quem é você?',
+      text: 'Quem é você?',
+      icon: <User size={14} />,
+    },
+    {
+      label: 'Projetos',
+      text: 'Me conta sobre La Casa Di Frango',
+      icon: <Briefcase size={14} />,
+    },
+    {
+      label: 'Skills',
+      text: 'Quais tecnologias você usa?',
+      icon: <Code2 size={14} />,
+    },
+    {
+      label: 'Contato',
+      text: 'Como posso entrar em contato?',
+      icon: <Phone size={14} />,
+    },
   ];
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [messages, isLoading]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    document.body.style.overflow = isOpen
+      ? 'hidden'
+      : 'auto';
+
+    return () => {
       document.body.style.overflow = 'auto';
-    }
-    return () => { document.body.style.overflow = 'auto'; };
+    };
   }, [isOpen]);
 
-  const systemPrompt = `Você é um assistente de IA pessoal de Davi Bisewski, um desenvolvedor web junior talentoso.
+  const systemPrompt = `
+Você é um assistente de IA pessoal de Davi Bisewski.
+Seja amigável, moderno e profissional.
+Responda de forma objetiva.
+`;
 
-INFORMAÇÕES SOBRE DAVI:
-- Nome Completo: Davi De Morais Bisewski
-- Localização: Joinville, SC, Brasil
-- Email: davimbisewski@gmail.com
-- Telefone: +55 47 984828184
-- GitHub: https://github.com/DaviBisewski
+  const handleSendMessage = async (
+    messageText = null
+  ) => {
+    const textToSend =
+      messageText || inputValue.trim();
 
-FORMAÇÃO ACADÊMICA:
-- Técnico em Informática para Internet - Instituto Federal Catarinense (2023-2025)
-- Engenharia de Software - Universidade Católica de Santa Catarina (2026 - Cursando)
+    if (!textToSend || !apiKey) return;
 
-EXPERIÊNCIA PROFISSIONAL:
-- Freelancer em La Casa Di Frango (01/2026 - Presente)
-  * Sistema de gestão que reduziu 50% o tempo de atendimento
-  * App PWA com React, Vue e Django
-  * Dashboard administrativo com relatórios em PDF/Excel
+    setMessages((prev) => [
+      ...prev,
+      {
+        type: 'user',
+        text: textToSend,
+      },
+    ]);
 
-PROJETOS PRINCIPAIS:
-1. La Casa Di Frango - E-commerce Fullstack (React, Vue, Django, PostgreSQL, Supabase)
-2. Portfólio Interativo (React, GSAP, Framer Motion)
-3. Fut Draft - Fullstack (Vue, Node.js, REST API)
-4. Projeto de Conclusão de Curso - Dashboard com Django e Vue
-
-COMPETÊNCIAS:
-Frontend: React 19, Vue.js 3, JavaScript ES6+, HTML5, CSS3, Tailwind CSS, GSAP, Framer Motion, PWA
-Backend: Django 5, Node.js, Express, Python, REST API, JWT
-Banco de Dados: PostgreSQL, SQL, Supabase
-Ferramentas: Git, GitHub, Figma, Docker, Arquitetura Limpa
-
-INSTRUÇÕES:
-1. Seja amigável e profissional
-2. Se perguntarem sobre contato: Email (davimbisewski@gmail.com) ou WhatsApp (+55 47 984828184)
-3. Se perguntarem sobre projetos: Dê detalhes técnicos e impacto
-4. Mantenha respostas concisas (máx 2-3 parágrafos)
-5. Use português do Brasil`;
-
-  const handleSendMessage = async (messageText = null) => {
-    const textToSend = messageText || inputValue.trim();
-    if (!textToSend || !apiKey) {
-      if (!apiKey) alert('❌ VITE_GEMINI_API_KEY não configurada em .env.local');
-      return;
-    }
-    setMessages(prev => prev.filter(msg => !msg.isInitial).concat({ type: 'user', text: textToSend }));
     setInputValue('');
+
     setIsLoading(true);
+
     try {
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: `${systemPrompt}\n\nPergunta do usuário: ${textToSend}` }] }],
-            generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
-          })
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `${systemPrompt}\n\nPergunta do usuário: ${textToSend}`,
+                  },
+                ],
+              },
+            ],
+            generationConfig: {
+              maxOutputTokens: 1024,
+              temperature: 0.7,
+            },
+          }),
         }
       );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Erro na API');
-      }
+
       const data = await response.json();
-      const botResponse = data.candidates[0]?.content?.parts[0]?.text || 'Desculpa, não consegui gerar uma resposta.';
-      setMessages(prev => [...prev, { type: 'bot', text: botResponse }]);
-    } catch (error) {
-      let errorMessage = '❌ Erro ao processar sua mensagem.';
-      if (error.message.includes('429')) errorMessage = '⏱️ Muitas requisições. Tente novamente em alguns segundos.';
-      else if (error.message.includes('API')) errorMessage = '❌ Erro de autenticação. Verifique sua chave em .env.local';
-      else errorMessage += ' ' + error.message;
-      setMessages(prev => [...prev, { type: 'bot', text: errorMessage }]);
+
+      const botResponse =
+        data?.candidates?.[0]?.content?.parts?.[0]
+          ?.text ||
+        'Não consegui gerar uma resposta agora.';
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: 'bot',
+          text: botResponse,
+        },
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: 'bot',
+          text: 'Erro ao processar sua mensagem.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -117,285 +155,428 @@ INSTRUÇÕES:
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+
       handleSendMessage();
     }
   };
 
-  const stars = [
-    { id: 0,  angle:   8, r: 20, size: 2.5, delay: 0.0,  dur: 2.2 },
-    { id: 1,  angle:  32, r: 16, size: 1.5, delay: 0.7,  dur: 1.8 },
-    { id: 2,  angle:  58, r: 22, size: 2.0, delay: 1.3,  dur: 2.5 },
-    { id: 3,  angle:  88, r: 18, size: 1.5, delay: 0.3,  dur: 2.0 },
-    { id: 4,  angle: 115, r: 20, size: 2.8, delay: 1.0,  dur: 1.9 },
-    { id: 5,  angle: 142, r: 16, size: 1.5, delay: 0.5,  dur: 2.3 },
-    { id: 6,  angle: 168, r: 21, size: 2.0, delay: 1.6,  dur: 2.1 },
-    { id: 7,  angle: 198, r: 18, size: 1.5, delay: 0.2,  dur: 2.4 },
-    { id: 8,  angle: 225, r: 20, size: 2.5, delay: 0.9,  dur: 1.7 },
-    { id: 9,  angle: 252, r: 16, size: 1.5, delay: 1.4,  dur: 2.2 },
-    { id: 10, angle: 278, r: 22, size: 2.0, delay: 0.6,  dur: 2.0 },
-    { id: 11, angle: 308, r: 18, size: 1.5, delay: 1.1,  dur: 1.9 },
-    { id: 12, angle: 335, r: 20, size: 2.8, delay: 0.4,  dur: 2.3 },
-  ];
-
-  const pillW = 160, pillH = 48, pad = 40;
-  const svgW = pillW + pad * 2;
-  const svgH = pillH + pad * 2;
-  const pcx  = svgW / 2;
-  const pcy  = svgH / 2;
-
-  function starPos(angle, r) {
-    const rad = (angle * Math.PI) / 180;
-    const ex  = (pillW / 2) * Math.cos(rad);
-    const ey  = (pillH / 2) * Math.sin(rad);
-    const len = Math.sqrt(ex * ex + ey * ey) || 1;
-    return {
-      x: pcx + ex + (ex / len) * r,
-      y: pcy + ey + (ey / len) * r,
-    };
-  }
-
-  function starPath(x, y, s) {
-    return `M${x},${y - s} L${x + s * 0.28},${y} L${x},${y + s} L${x - s * 0.28},${y} Z`;
-  }
-
   return (
     <>
+      {/* FLOATING BUTTON */}
       {!isOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '32px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 40,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {/* Stars SVG */}
-          <svg
-            width={svgW}
-            height={svgH}
-            viewBox={`0 0 ${svgW} ${svgH}`}
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              pointerEvents: 'none',
-              overflow: 'visible',
-            }}
-          >
-            {stars.map(s => {
-              const pos = starPos(s.angle, s.r);
-              return (
-                <path
-                  key={s.id}
-                  d={starPath(pos.x, pos.y, s.size)}
-                  fill="white"
-                  style={{
-                    opacity: 0,
-                    animation: `twinkle ${s.dur}s ${s.delay}s linear infinite`,
-                    transformOrigin: `${pos.x}px ${pos.y}px`,
-                  }}
-                />
-              );
-            })}
-          </svg>
-
-          {/* Button — lifts on hover, inner content also lifts */}
+        <div className="fixed bottom-7 left-1/2 z-40 -translate-x-1/2">
           <button
             onClick={() => setIsOpen(true)}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            aria-label="Abrir chat com IA"
-            style={{
-              position: 'relative',
-              zIndex: 1,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              height: '48px',
-              padding: '0 28px',
-              borderRadius: '9999px',
-              border: 'none',
-              background: hovered ? '#2e2e2e' : '#111111',
-              color: '#ffffff',
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              letterSpacing: '0.01em',
-              cursor: 'pointer',
-              boxShadow: hovered
-                ? '0 8px 24px rgba(0,0,0,0.55), 0 16px 48px rgba(0,0,0,0.4)'
-                : '0 2px 12px rgba(0,0,0,0.5), 0 6px 32px rgba(0,0,0,0.35)',
-              /* the whole button (shell) lifts slightly */
-              transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
-              transition: 'background 0.25s ease, box-shadow 0.3s ease, transform 0.25s ease',
-            }}
+            className="
+              group
+              relative
+              flex
+              cursor-pointer
+              items-center
+              gap-3
+              overflow-hidden
+              rounded-full
+              border
+              border-white/10
+              bg-black
+              px-5
+              py-3
+              text-sm
+              font-medium
+              text-white
+              shadow-[0_10px_40px_rgba(0,0,0,0.45)]
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:bg-gray-900
+            "
           >
-            {/* Inner content lifts an extra bit on top of the button lift */}
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
-                transition: 'transform 0.25s ease',
-              }}
+            <div
+              className="
+                relative
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/10
+                bg-white/5
+              "
             >
-              <img src={AiIcon} alt="" style={{ width: 20, height: 20, objectFit: 'contain' }} />
-              <span>Dúvidas?</span>
-            </span>
+              <img
+                src={AiIcon}
+                alt="AI"
+                className="h-4 w-4 object-contain"
+              />
+            </div>
+
+            <span>Saiba mais</span>
+
+            <Sparkles
+              size={14}
+              className="
+                opacity-70
+                transition-transform
+                duration-300
+                group-hover:rotate-12
+              "
+            />
           </button>
         </div>
       )}
 
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          style={{
-            position: 'fixed', inset: 0,
-            background: 'rgba(0,0,0,0.5)',
-            zIndex: 40,
-          }}
-        />
-      )}
-
-      {/* Chat drawer */}
+      {/* OVERLAY */}
       <div
-        style={{
-          position: 'fixed',
-          top: 0, right: 0,
-          height: '100%',
-          width: '100%',
-          maxWidth: '384px',
-          background: '#fff',
-          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
-          zIndex: 50,
-          display: 'flex',
-          flexDirection: 'column',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
-        }}
+        onClick={() => setIsOpen(false)}
+        className={`
+          fixed
+          inset-0
+          z-40
+          bg-black/40
+          backdrop-blur-sm
+          transition-all
+          duration-500
+          ${
+            isOpen
+              ? 'pointer-events-auto opacity-100'
+              : 'pointer-events-none opacity-0'
+          }
+        `}
+      />
+
+      {/* CHAT */}
+      <div
+        className={`
+          fixed
+          right-0
+          top-0
+          z-50
+          flex
+          h-full
+          w-full
+          md:max-w-[420px]
+          flex-col
+          border-l
+          border-black/5
+          bg-white
+          transition-transform
+          duration-500
+          ease-[cubic-bezier(0.16,1,0.3,1)]
+          ${
+            isOpen
+              ? 'translate-x-0'
+              : 'translate-x-full'
+          }
+        `}
       >
-        {/* Header */}
-        <div style={{ borderBottom: '1px solid #e5e7eb', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img src={AiIcon} alt="IA" style={{ width: 24, height: 24, objectFit: 'contain' }} />
-            <div>
-              <div style={{ fontSize: '1.125rem', fontWeight: 600, color: '#000' }}>Assistente</div>
-              <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>Gemini AI</div>
-            </div>
-          </div>
+        {/* HEADER */}
+        <div
+          className="
+            flex
+            items-center
+            justify-end
+            border-b
+            border-black/5
+            px-5
+            py-5
+          "
+        >
           <button
             onClick={() => setIsOpen(false)}
-            style={{ padding: 8, borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer' }}
-            onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
-            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-            aria-label="Fechar chat"
+            className="
+              flex
+              h-11
+              w-11
+              cursor-pointer
+              items-center
+              justify-center
+              rounded-2xl
+              border
+              border-black/5
+              bg-white
+              text-gray-600
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:text-black
+            "
           >
-            <X size={20} color="#4b5563" />
+            <X size={18} />
           </button>
         </div>
 
-        {/* Messages */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {messages.map((message, index) => (
-            <div key={index} style={{ display: 'flex', justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start', animation: 'msgFade 0.25s ease-out' }}>
-              <div style={{
-                maxWidth: '80%',
-                padding: '8px 16px',
-                borderRadius: message.type === 'user' ? '12px 12px 0 12px' : '12px 12px 12px 0',
-                fontSize: '0.875rem',
-                lineHeight: 1.6,
-                background: message.type === 'user' ? '#000' : '#f3f4f6',
-                color: message.type === 'user' ? '#fff' : '#111',
-              }}>
-                {message.text}
-              </div>
+        {/* HERO */}
+        {messages.length === 0 && (
+          <div
+            className="
+              flex
+              flex-col
+              items-center
+              px-8
+              pt-8
+              pb-6
+            "
+          >
+            {/* Sphere */}
+            <AnimatedOrb />
+
+            {/* TEXT */}
+            <div className="max-w-[320px] text-center">
+              <TypewriterText
+                text="Olá, eu sou o assistente do Davi."
+                isActive={isOpen}
+                className="
+                  text-[24px]
+                  font-semibold
+                  leading-[1.2]
+                  tracking-[-0.03em]
+                  text-black
+                "
+              />
+
+              <p
+                className="
+                  animate-fade-text
+                  mt-3
+                  text-[13px]
+                  leading-6
+                  text-gray-500
+                "
+              >
+                Faça perguntas sobre projetos,
+                tecnologias, experiências ou
+                formas de contato.
+              </p>
             </div>
-          ))}
-          {isLoading && (
-            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <div style={{ background: '#f3f4f6', padding: '8px 16px', borderRadius: '12px 12px 12px 0' }}>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  {[0, 0.1, 0.2].map((d, i) => (
-                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: '#9ca3af', animation: `bounce 1s ${d}s infinite` }} />
+          </div>
+        )}
+
+        {/* MESSAGES */}
+        <div
+          className="
+            chatbot-scroll
+            flex-1
+            overflow-y-auto
+            px-4
+            py-3
+          "
+        >
+          <div className="flex flex-col gap-4">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`
+                  animate-message
+                  flex
+                  ${
+                    message.type === 'user'
+                      ? 'justify-end'
+                      : 'justify-start'
+                  }
+                `}
+              >
+                <div
+                  className={`
+                    max-w-[85%]
+                    rounded-3xl
+                    px-4
+                    py-3
+                    text-[14px]
+                    leading-7
+                    ${
+                      message.type === 'user'
+                        ? 'bg-black text-white'
+                        : 'bg-zinc-100 text-zinc-800'
+                    }
+                  `}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+
+            {isLoading && (
+              <div className="flex justify-start">
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-1.5
+                    rounded-2xl
+                    bg-gray-100
+                    px-4
+                    py-3
+                  "
+                >
+                  {[0, 1, 2].map((dot) => (
+                    <div
+                      key={dot}
+                      className="
+                        h-2
+                        w-2
+                        animate-bounce-soft
+                        rounded-full
+                        bg-gray-500
+                      "
+                      style={{
+                        animationDelay: `${dot * 0.15}s`,
+                      }}
+                    />
                   ))}
                 </div>
               </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
-        {/* Quick messages */}
-        {messages.some(msg => msg.isInitial) && messages.length === 1 && (
-          <div style={{ padding: '12px 16px', background: '#f9fafb', borderTop: '1px solid #e5e7eb' }}>
-            <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#4b5563', marginBottom: 10 }}>Comece com:</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+        {/* QUICK ACTIONS */}
+        {messages.length === 0 && (
+          <div
+            className="
+              border-t
+              border-black/5
+              px-4
+              py-2
+            "
+          >
+            <p
+              className="
+                mb-1
+                text-xs
+                font-medium
+                uppercase
+                tracking-wide
+                text-gray-500
+              "
+            >
+              Sugestões
+            </p>
+
+            <div className="grid grid-cols-2 gap-2">
               {quickMessages.map((msg, idx) => (
                 <button
                   key={idx}
-                  onClick={() => handleSendMessage(msg.text)}
-                  style={{ background: '#fff', border: '1px solid #d1d5db', color: '#374151', borderRadius: 8, padding: '8px 12px', fontSize: '0.75rem', fontWeight: 500, cursor: 'pointer', transition: 'all 0.2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.background = '#f9fafb'; e.currentTarget.style.borderColor = '#9ca3af'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#d1d5db'; }}
+                  onClick={() =>
+                    handleSendMessage(msg.text)
+                  }
+                  className="
+                    flex
+                    cursor-pointer
+                    items-center
+                    gap-2
+                    rounded-2xl
+                    border
+                    border-black/5
+                    bg-white
+                    px-4
+                    py-3
+                    text-sm
+                    font-medium
+                    text-gray-700
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:bg-gray-50
+                    hover:shadow-[0_8px_16px_rgba(0,0,0,0.1)]
+                  "
                 >
-                  {msg.label}
+                  <span
+                    className="
+                      flex
+                      h-7
+                      w-7
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-gray-100
+                    "
+                  >
+                    {msg.icon}
+                  </span>
+
+                  <span>{msg.label}</span>
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Input */}
-        <div style={{ borderTop: '1px solid #e5e7eb', padding: 16, background: '#fff' }}>
-          <div style={{ display: 'flex', gap: 8 }}>
+        {/* INPUT */}
+        <div
+          className="
+            border-t
+            border-black/5
+            bg-white
+            px-4
+            py-2
+          "
+        >
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+              rounded-2xl
+              border
+              border-black/5
+              bg-white
+              p-2
+            "
+          >
             <input
               type="text"
               value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Digite sua pergunta..."
               disabled={isLoading}
-              style={{ flex: 1, padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: 8, fontSize: '0.875rem', outline: 'none', background: isLoading ? '#f3f4f6' : '#fff' }}
-              onFocus={e => e.target.style.borderColor = '#000'}
-              onBlur={e => e.target.style.borderColor = '#d1d5db'}
+              placeholder="Digite sua pergunta..."
+              onChange={(e) =>
+                setInputValue(e.target.value)
+              }
+              onKeyDown={handleKeyPress}
+              className="
+                flex-1
+                bg-transparent
+                px-3
+                text-sm
+                text-gray-800
+                outline-none
+                placeholder:text-gray-400
+              "
             />
+
             <button
               onClick={() => handleSendMessage()}
-              disabled={isLoading || !inputValue.trim()}
-              style={{ background: isLoading || !inputValue.trim() ? '#d1d5db' : '#000', color: '#fff', border: 'none', borderRadius: 8, padding: '0 12px', cursor: isLoading || !inputValue.trim() ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}
-              aria-label="Enviar"
+              disabled={
+                isLoading || !inputValue.trim()
+              }
+              className="
+                flex
+                h-11
+                w-11
+                cursor-pointer
+                items-center
+                justify-center
+                rounded-xl
+                bg-black
+                text-white
+                transition-all
+                duration-300
+                hover:scale-105
+                hover:bg-gray-900
+                disabled:pointer-events-none
+                disabled:opacity-40
+              "
             >
-              <Send size={18} />
+              <ArrowUp size={17} />
             </button>
           </div>
         </div>
       </div>
 
-      <style>{`
-        @keyframes twinkle {
-          0%   { opacity: 0;   transform: scale(0.3); }
-          25%  { opacity: 1;   transform: scale(1.15); }
-          55%  { opacity: 0.6; transform: scale(0.85); }
-          80%  { opacity: 0.9; transform: scale(1.05); }
-          100% { opacity: 0;   transform: scale(0.3); }
-        }
-        @keyframes msgFade {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-4px); }
-        }
-      `}</style>
+      <style>{CHATBOT_ANIMATIONS}</style>
     </>
   );
 };

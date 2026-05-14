@@ -7,6 +7,7 @@ import HeroImage from "../assets/img/Foto.png";
 
 import SocialButton from "../components/SocialButton";
 import { heroImageAnimation } from "../animations/heroImageAnimation";
+import { SOCIAL_URLS } from "../constants";
 
 export default function Hero() {
   const heroImageRef = useRef(null);
@@ -26,17 +27,17 @@ export default function Hero() {
 
   const socialLinks = [
     {
-      href: "https://github.com/DaviBisewski",
+      href: SOCIAL_URLS.github,
       icon: GithubIcon,
       label: "GitHub",
     },
     {
-      href: "https://linkedin.com/in/davibisewski",
+      href: SOCIAL_URLS.linkedin,
       icon: LinkedinIcon,
       label: "LinkedIn",
     },
     {
-      href: "/Davi Bisewski.pdf",
+      href: SOCIAL_URLS.curriculum,
       icon: DownloadIcon,
       label: "Currículo",
       download: true,

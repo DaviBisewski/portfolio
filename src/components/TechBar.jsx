@@ -1,39 +1,22 @@
 import { useState } from "react";
-
-import Figma from "../assets/img/figma.png";
-import Github from "../assets/img/githubwhite.png";
-import Git from "../assets/img/git.png";
-import Mysql from "../assets/img/mySQL.png";
-import Django from "../assets/img/django.png";
-import ReactIcon from "../assets/img/react.png";
-import Vue from "../assets/img/vue.png";
-import JS from "../assets/img/javascript.png";
-import Python from "../assets/img/python.png";
-
-const techs = [
-  { name: "Figma", icon: Figma },
-  { name: "GitHub", icon: Github },
-  { name: "Git", icon: Git },
-  { name: "MySQL", icon: Mysql },
-  { name: "Django", icon: Django },
-  { name: "React", icon: ReactIcon },
-  { name: "Vue", icon: Vue },
-  { name: "JavaScript", icon: JS },
-  { name: "Python", icon: Python },
-];
+import { TECHNOLOGIES } from "../constants";
 
 export default function TechBar() {
   const [activeTech, setActiveTech] = useState(null);
 
-  // Lógica para alterar o cursor do mouse para o ícone da tecnologia selecionada
+  // Alterar o cursor do mouse para o ícone da tecnologia selecionada
   const handleCursorChange = (icon) => {
-    document.body.style.cursor = `url(${icon}) 16 16, auto`;
+    if (typeof window !== 'undefined') {
+      document.body.style.cursor = `url(${icon}) 16 16, auto`;
+    }
     setActiveTech(icon);
   };
 
   // Reseta o cursor para o padrão do sistema
   const resetCursor = () => {
-    document.body.style.cursor = "auto";
+    if (typeof window !== 'undefined') {
+      document.body.style.cursor = "auto";
+    }
     setActiveTech(null);
   };
 
@@ -68,7 +51,7 @@ export default function TechBar() {
             }
           `}</style>
 
-          {techs.map((tech) => (
+          {TECHNOLOGIES.map((tech) => (
             <button
               key={tech.name}
               onClick={() => handleCursorChange(tech.icon)}

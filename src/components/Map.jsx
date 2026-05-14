@@ -1,28 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SkillIcon from './SkillComponent';
-import Figma from "../assets/img/figma.png";
-import Github from "../assets/img/github.png";
-import Git from "../assets/img/git.png";
-import Mysql from "../assets/img/mySQL.png";
-import Django from "../assets/img/django.png";
-import ReactIcon from "../assets/img/react.png";
-import Vue from "../assets/img/vue.png";
-import JS from "../assets/img/javascript.png";
-import Python from "../assets/img/python.png";
-import Us from "../assets/img/usa.png";
-
-const skillsList = [
-  { name: "Figma", icon: Figma },
-  { name: "GitHub", icon: Github },
-  { name: "Git", icon: Git },
-  { name: "MySQL", icon: Mysql },
-  { name: "Vue", icon: Vue },
-  { name: "JavaScript", icon: JS },
-  { name: "Python", icon: Python },
-  { name: "Django", icon: Django },
-  { name: "React", icon: ReactIcon },
-  { name: 'Inglês', icon: Us },
-];
+import { SKILLS } from "../constants";
 
 const EducationMap = () => {
   const [visibleCount, setVisibleCount] = useState(0);
@@ -39,9 +17,11 @@ const EducationMap = () => {
       { threshold: 0.2 }
     );
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) observer.observe(currentRef);
+    
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, [hasStarted]);
 
@@ -49,7 +29,7 @@ const EducationMap = () => {
     if (hasStarted) {
       const timer = setInterval(() => {
         setVisibleCount(prev => {
-          if (prev < skillsList.length) return prev + 1;
+          if (prev < SKILLS.length) return prev + 1;
           clearInterval(timer);
           return prev;
         });
@@ -87,7 +67,7 @@ const EducationMap = () => {
         {/* Grade de Habilidades: Mantém o padding lateral para não encostar nas bordas */}
         <div className="w-full lg:w-1/2 lg:-ml-32 z-20 px-6 md:px-0">
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-3 md:gap-6">
-            {skillsList.map((skill, index) => (
+            {SKILLS.map((skill, index) => (
               <div 
                 key={skill.name} 
                 className="flex justify-center items-center"

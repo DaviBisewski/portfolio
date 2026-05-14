@@ -1,15 +1,8 @@
 import MenuIcon from '../assets/img/menu.png';
+import { scrollToTop } from '../hooks/useScrollToSection';
 
 export default function Header({ onMenuClick }) {
   
-  // Lógica para rolar a página até o topo suavemente
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
   return (
     // Header fixo com fundo translúcido (glassmorphism) em telas menores
     <header className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-md md:bg-transparent md:backdrop-blur-none">
