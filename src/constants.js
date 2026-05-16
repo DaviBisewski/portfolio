@@ -16,7 +16,7 @@ export const SOCIAL_URLS = {
   linkedin: 'https://linkedin.com/in/davibisewski',
   instagram: 'https://instagram.com/davi_bisewski',
   whatsapp: 'https://wa.me/5547984828184?text=Olá Davi! Gostaria de saber mais sobre seu trabalho.',
-  curriculum: '/Davi Bisewski.pdf',
+  curriculum: '/_Davi_De_Morais_Bisewski_Resume.pdf',
 };
 
 // Menu links - Consolidado
